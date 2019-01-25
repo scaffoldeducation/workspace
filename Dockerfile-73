@@ -1,0 +1,57 @@
+FROM phusion/baseimage:latest
+
+LABEL maintainer="Diego Mosela <diego.mosela@scaffoldeducation.com.br>"
+
+RUN DEBIAN_FRONTEND=noninteractive
+ENV TERM xterm
+
+# Add the "PHP 7"
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:ondrej/php
+
+#
+#--------------------------------------------------------------------------
+# Software's Installation - DO NOT EDIT THIS SECTION
+#--------------------------------------------------------------------------
+#
+
+# Install "PHP Extentions", "libraries"
+RUN apt-get update && \
+    apt-get install -y --allow-downgrades --allow-remove-essential \
+        --allow-change-held-packages \
+        php7.3-cli \
+        php7.3-common \
+        php7.3-curl \
+        php7.3-intl \
+        php7.3-json \
+        php7.3-xml \
+        php7.3-mbstring \
+        php7.3-mysql \
+        php7.3-pgsql \
+        php7.3-sqlite \
+        php7.3-sqlite3 \
+        php7.3-zip \
+        php7.3-bcmath \
+        php7.3-memcached \
+        php7.3-gd \
+        php7.3-dev \
+        pkg-config \
+        libcurl4-openssl-dev \
+        libedit-dev \
+        libssl-dev \
+        libxml2-dev \
+        libsqlite3-dev \
+        sqlite3 \
+        git \
+        curl \
+        vim \
+        postgresql-client \
+    && apt-get clean
+
+#####################################
+# Composer:
+#####################################
+
+# Install composer and add its bin to the PATH.
+RUN curl -s http://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
